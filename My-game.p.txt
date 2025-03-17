@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Click the Button Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="game-container">
+    <h1>Click the Button Game</h1>
+    <p id="timer">Time left: 10s</p>
+    <button id="clickButton">Click Me!</button>
+    <p>Score: <span id="score">0</span></p>
+    <p id="gameOverMessage" style="display: none;">Game Over! Your final score is: <span id="finalScore"></span></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.game-container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+p {
+  font-size: 18px;
+  font-weight: bold;
+}
+let score = 0;
+let timeLeft = 10; // Time in seconds
+let timer;
+let gameOver = false;
+
+const clickButton = document.getElementById('clickButton');
+const scoreDisplay = document.getElementById('score');
+const timerDisplay = document.getElementById('timer');
+const gameOverMessage = document.getElementById('gameOverMessage');
+const finalScore = document.getElementById('finalScore');
+
+// Start the game when the page loads
+function startGame() {
+  score = 0;
+  timeLeft = 10;
+  gameOver = false;
+  scoreDisplay.textContent = score;
+  gameOverMessage.style.display = 'none';
+  clickButton.disabled = false;
+
+  timer = setInterval(() => {
+    timeLeft--;
+    timerDisplay.textContent = `Time left: ${timeLeft}s`;
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      endGame();
+    }
+  }, 1000);
+}
+
+// End the game
+function endGame() {
+  gameOver = true;
+  clickButton.disabled = true;
+  finalScore.textContent = score;
+  gameOverMessage.style.display = 'block';
+}
+
+// Handle button click
+clickButton.addEventListener('click', () => {
+  if (!gameOver) {
+    score++;
+    scoreDisplay.textContent = score;
+  }
+});
+
+// Initialize the game
+startGame();
